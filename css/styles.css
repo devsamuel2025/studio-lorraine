@@ -350,9 +350,9 @@ img {
     position: relative;
     z-index: 2;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 9 / 16;
     object-fit: cover;
-    object-position: center bottom;
+    object-position: center;
 }
 
 .image-accent {
