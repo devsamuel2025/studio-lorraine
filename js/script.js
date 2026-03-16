@@ -61,4 +61,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 4. Audio Control for About Video
+    const aboutVideo = document.getElementById('about-video');
+    
+    if (aboutVideo) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Start audio when in view
+                    // Note: Browser policies may block this if the user hasn't interacted with the page yet
+                    aboutVideo.muted = false;
+                    
+                    // Optional: Try to play in case it was paused
+                    aboutVideo.play().catch(e => console.log("Autoplay with sound blocked until user interaction"));
+                } else {
+                    // Mute when out of view to save resources and avoid confusion
+                    aboutVideo.muted = true;
+                }
+            });
+        }, { threshold: 0.5 }); // Unmute when at least 50% of the video is visible
+
+        videoObserver.observe(aboutVideo);
+    }
 });
