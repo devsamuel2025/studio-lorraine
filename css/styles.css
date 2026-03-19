@@ -265,6 +265,31 @@ img {
     color: var(--color-primary);
 }
 
+/* --- Menu Toggle --- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1010;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-heading);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -8px); }
+
 /* --- Hero Section --- */
 .hero {
     position: relative;
@@ -833,9 +858,36 @@ img {
 }
 
 @media (max-width: 768px) {
-    .nav ul { display: none; } /* Hide normal nav on mobile */
+    .menu-toggle { display: flex; }
+    
+    .nav { 
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: #fff;
+        padding: 6rem 2rem;
+        transition: var(--transition-smooth);
+        z-index: 1005;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .nav.active {
+        right: 0;
+    }
+
+    .nav ul { 
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    } 
+    
     .header .container { justify-content: space-between; }
-    .nav-btn { display: none; } /* Hide top btn on mobile if needed, or keep it */
+    .nav-btn { display: none; }
     
     .hero { text-align: center; justify-content: center; }
     .hero-content { margin: 0 auto; }
@@ -845,12 +897,15 @@ img {
     .about-grid, .location-grid { grid-template-columns: 1fr; }
     .about-image { margin-bottom: 2rem; max-width: 500px; margin-inline: auto; }
     
-    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .gallery-overlay span { font-size: 1rem; }
+    
     .reviews-slider { grid-template-columns: 1fr; }
     
     .footer-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
     .footer-about p { margin: 0 auto; }
-    .footer-contact li { justify-content: center; }
+    .footer-contact li { justify-content: center; margin-bottom: 0.5rem; }
+    .footer-links ul { gap: 0.5rem; }
     
     .section-padding { padding: 4rem 0; }
 }
@@ -859,4 +914,5 @@ img {
     .hero h1 { font-size: 2.2rem; }
     .btn-large { padding: 1rem 1.5rem; font-size: 0.95rem; }
     .section-title { font-size: 2rem; }
+    .logo { font-size: 1.2rem; letter-spacing: 1px; }
 }
