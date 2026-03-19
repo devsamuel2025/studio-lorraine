@@ -221,6 +221,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.5rem;
 }
 
 .logo {
@@ -855,6 +856,9 @@ img {
     .hero h1 { font-size: 3.5rem; }
     .about-grid, .location-grid { gap: 2rem; }
     .reviews-slider { grid-template-columns: repeat(2, 1fr); }
+    .nav ul { gap: 1rem; }
+    .nav a { font-size: 0.8rem; }
+    .nav-btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
 }
 
 @media (max-width: 768px) {
