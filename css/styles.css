@@ -368,6 +368,8 @@ img {
 
 .about-image {
     position: relative;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .about-image img, .about-image video {
