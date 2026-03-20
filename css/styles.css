@@ -368,8 +368,6 @@ img {
 
 .about-image {
     position: relative;
-    max-width: 420px;
-    margin-inline: auto;
 }
 
 .about-image img, .about-image video {
@@ -381,6 +379,14 @@ img {
     aspect-ratio: 9 / 16;
     object-fit: cover;
     object-position: center;
+}
+
+@media (min-width: 992px) {
+    .about-image video {
+        max-height: 75vh;
+        width: auto;
+        margin: 0 auto;
+    }
 }
 
 .image-accent {
