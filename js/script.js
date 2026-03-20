@@ -107,8 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             togglePlay();
         });
 
-        // Toggle on video click too
-        aboutVideo.addEventListener('click', togglePlay);
+
 
         // State listeners
         aboutVideo.addEventListener('play', () => {
