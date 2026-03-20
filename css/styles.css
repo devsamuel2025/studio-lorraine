@@ -368,6 +368,8 @@ img {
 
 .about-image {
     position: relative;
+    max-width: 420px;
+    margin-inline: auto;
 }
 
 .about-image img, .about-image video {
