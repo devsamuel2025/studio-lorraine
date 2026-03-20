@@ -88,5 +88,41 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    // 5. Custom Video Play Button
+    const playBtn = document.getElementById('play-btn');
+    const aboutVideo = document.getElementById('about-video');
 
+    if (playBtn && aboutVideo) {
+        const togglePlay = () => {
+            if (aboutVideo.paused) {
+                aboutVideo.play();
+                aboutVideo.setAttribute('controls', 'true');
+            } else {
+                aboutVideo.pause();
+            }
+        };
+
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePlay();
+        });
+
+        // Toggle on video click too
+        aboutVideo.addEventListener('click', togglePlay);
+
+        // State listeners
+        aboutVideo.addEventListener('play', () => {
+            playBtn.style.display = 'none';
+            aboutVideo.setAttribute('controls', 'true');
+        });
+
+        aboutVideo.addEventListener('pause', () => {
+            playBtn.style.display = 'flex';
+        });
+
+        // Show button at the end of video
+        aboutVideo.addEventListener('ended', () => {
+            playBtn.style.display = 'flex';
+        });
+    }
 });
