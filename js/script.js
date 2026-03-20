@@ -120,9 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
             playBtn.style.display = 'flex';
         });
 
-        // Show button at the end of video
-        aboutVideo.addEventListener('ended', () => {
-            playBtn.style.display = 'flex';
-        });
+        // 6. Auto-pause video when out of view
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting && !aboutVideo.paused) {
+                    aboutVideo.pause();
+                }
+            });
+        }, { threshold: 0.1 }); // Pause if less than 10% is visible
+
+        videoObserver.observe(aboutVideo);
     }
 });
