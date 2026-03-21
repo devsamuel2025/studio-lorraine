@@ -894,21 +894,21 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.15); /* Subtly dark default for visibility */
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+.map-container:hover .map-overlay {
+    background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(2px);
 }
 
 .map-container:hover .map-img {
-    transform: scale(1.1);
-}
-
-.map-container:hover .map-overlay {
-    opacity: 1;
+    transform: scale(1.05); /* Reduced scale for better focus */
 }
 
 @media (max-width: 768px) {
