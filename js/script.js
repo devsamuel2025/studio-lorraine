@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Header Scroll Effect
     const header = document.getElementById('header');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Elements to animate
     const animateElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right');
-    
+
     animateElements.forEach(element => {
         observer.observe(element);
     });
@@ -41,19 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
-            
+
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
-            
+
             if (targetElement) {
                 e.preventDefault();
-                
+
                 // Adjust for fixed header offset
                 const headerHeight = header.offsetHeight;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-                
+
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'

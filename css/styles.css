@@ -233,6 +233,11 @@ img {
     padding: 0.5rem 0;
 }
 
+.header.scrolled .logo {
+    transform: scale(0.85);
+    transform-origin: left center;
+}
+
 .header .container {
     display: flex;
     justify-content: space-between;
@@ -241,12 +246,90 @@ img {
 }
 
 .logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 700;
     color: var(--color-heading);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    text-decoration: none;
+    line-height: 0.85;
+    transition: var(--transition-smooth);
+}
+
+.logo-word {
+    display: block;
+    opacity: 0;
+    transform: translateY(15px);
+    animation: revealLogoWord 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.logo-word.studio {
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 12px;
+    margin-bottom: 2px;
+    animation-delay: 0.2s;
+    color: var(--color-text-light);
+}
+
+.logo-word.lorraine {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 2px;
+    animation-delay: 0.35s;
+    position: relative;
+}
+
+.logo-word.oliveira {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 6px;
+    animation-delay: 0.5s;
+    background: linear-gradient(90deg, 
+        var(--color-primary) 0%, 
+        var(--color-primary-light) 25%, 
+        var(--color-primary) 50%, 
+        var(--color-primary-light) 75%, 
+        var(--color-primary) 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: revealLogoWord 1s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+               logoShimmer 10s linear infinite;
+}
+
+.logo:hover {
+    transform: scale(1.03);
+}
+
+.logo:hover .logo-word {
+    text-shadow: 0 4px 15px rgba(212, 163, 115, 0.1);
+}
+
+/* Animations */
+@keyframes revealLogoWord {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes logoShimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 300% center; }
+}
+
+/* Footer specific tweak */
+.footer-logo {
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.footer-logo .logo-word {
+    animation-delay: 0s !important;
 }
 
 .nav ul {
@@ -1102,7 +1185,10 @@ img {
     }
 
     .logo {
-        font-size: 1.2rem;
-        letter-spacing: 1px;
+        padding: 0.5rem 0;
     }
+
+    .logo-word.studio { font-size: 1.1rem; }
+    .logo-word.lorraine { font-size: 1.4rem; }
+    .logo-word.oliveira { font-size: 1.3rem; }
 }
