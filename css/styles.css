@@ -894,13 +894,17 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.15); /* Subtly dark default for visibility */
+    background: transparent; /* No more dark overlay by default */
     display: flex;
     align-items: flex-end; /* Align to bottom to keep map center visible */
     justify-content: center;
     padding-bottom: 2rem;
     opacity: 1;
     transition: all 0.5s ease;
+}
+
+.map-overlay .btn {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2), var(--shadow-glow);
 }
 
 .map-container:hover .map-overlay {
