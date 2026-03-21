@@ -346,6 +346,11 @@ img {
     position: relative;
 }
 
+.nav-header,
+.nav-footer {
+    display: none;
+}
+
 .nav a::after {
     content: '';
     position: absolute;
