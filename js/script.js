@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             nav.classList.toggle('active');
+            
             // Prevent scrolling when menu is open
             if (nav.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
