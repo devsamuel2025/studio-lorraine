@@ -4,6 +4,53 @@
    =================================================
 */
 
+/* --- Music Player Styles --- */
+.music-player-container {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1001;
+}
+
+.music-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: floating 3s ease-in-out infinite;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.6);
+}
+
+.music-btn.muted i::before {
+    content: "\f6a9"; /* FontAwesome Muted icon */
+}
+
+@media (max-width: 768px) {
+    .music-player-container {
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .music-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+}
+
 /* --- Variables --- */
 :root {
     /* Color Palette */
@@ -63,6 +110,94 @@ body {
     color: var(--color-text-main);
     background-color: var(--color-bg);
     overflow-x: hidden;
+    cursor: default;
+}
+
+/* --- Custom Cursor Styles --- */
+@media (min-width: 992px) {
+    body {
+        cursor: none;
+    }
+
+    button, a, .marquee-item, .logo, .social-links a {
+        cursor: none;
+    }
+
+    .cursor-dot {
+        width: 14px;
+        height: 14px;
+        background-color: var(--color-primary);
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cursor-dot::after {
+        content: '\f1fc'; /* FontAwesome Brush icon */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        color: #fff;
+        font-size: 8px;
+        position: absolute;
+    }
+
+    .cursor-outline {
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--color-primary);
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition: all 0.15s ease-out;
+    }
+
+    /* Hover states for cursor */
+    .cursor-outline.hover {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(212, 163, 115, 0.15);
+        border: 1px solid var(--color-primary-light);
+    }
+
+    .cursor-dot.hover {
+        transform: translate(-50%, -50%) scale(2.5);
+    }
+    
+    .cursor-dot.hover::after {
+        content: '\f06d'; /* FontAwesome Fire/Sparkle icon on hover */
+        font-size: 6px;
+    }
+}
+
+/* Mobile Touch Ripple */
+.touch-ripple {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: rgba(212, 163, 115, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    animation: rippleEffect 0.6s ease-out;
+    z-index: 9999;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
 }
 
 h1,
@@ -182,6 +317,31 @@ img {
     background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     color: #fff;
     box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: btnShimmer 4s infinite linear;
+}
+
+@keyframes btnShimmer {
+    0% { left: -100%; }
+    20% { left: 150%; }
+    100% { left: 150%; }
 }
 
 .btn-primary:hover {
@@ -673,7 +833,7 @@ img {
     cursor: pointer;
     position: relative;
     background-color: #fff;
-    /* Transform handled dynamically by JS for the focus effect */
+    will-change: transform, opacity, z-index;
 }
 
 .marquee-item img {
@@ -909,6 +1069,20 @@ img {
     gap: 1rem;
 }
 
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
 .contact-icon {
     width: 45px;
     height: 45px;
@@ -1137,25 +1311,28 @@ img {
 
 .fade-in-up {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(40px) scale(0.95);
+    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform, opacity;
 }
 
 .fade-in-left {
     opacity: 0;
-    transform: translateX(-40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateX(-50px) scale(0.98);
+    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform, opacity;
 }
 
 .fade-in-right {
     opacity: 0;
-    transform: translateX(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateX(50px) scale(0.98);
+    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform, opacity;
 }
 
 .is-visible {
     opacity: 1;
-    transform: translate(0);
+    transform: translate(0) scale(1);
 }
 
 /* --- Responsive Design --- */
@@ -1209,9 +1386,18 @@ img {
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        overflow-y: hidden;
-        overflow-x: hidden;
+        overflow: hidden;
         -webkit-overflow-scrolling: touch;
+    }
+
+    .container {
+        padding: 0 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .header .container {
+        padding: 0 20px;
     }
 
     /* Menu background pattern effect - fixed position relative to menu viewport */
@@ -1352,8 +1538,25 @@ img {
 
     .about-image {
         margin-bottom: 2rem;
-        max-width: 500px;
+        width: 100%;
+        max-width: 100%;
         margin-inline: auto;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .about-video-container {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 16;
+    }
+
+    .about-image::before {
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        left: 10px;
+        top: 10px;
     }
 
     .gallery-grid {
