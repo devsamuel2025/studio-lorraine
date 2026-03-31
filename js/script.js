@@ -131,4 +131,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
         videoObserver.observe(aboutVideo);
     }
+
+    // 7. Results Marquee Focus Effect
+    const marqueeItems = document.querySelectorAll('.marquee-item');
+    
+    if (marqueeItems.length > 0) {
+        const updateMarqueeFocus = () => {
+            const viewportCenterX = window.innerWidth / 2;
+            const focusRange = window.innerWidth * 0.8; // Range to affect scaling
+
+            marqueeItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const itemCenterX = rect.left + rect.width / 2;
+                const distanceFromCenter = Math.abs(viewportCenterX - itemCenterX);
+                
+                // Calculate normalized distance (0 = center, 1 = edges)
+                const normalizedDistance = Math.min(1, distanceFromCenter / (focusRange / 2));
+                
+                // Apply dynamic values
+                // Scale from 1.15 (center) to 0.85 (edges)
+                const scale = 1.15 - (normalizedDistance * 0.3);
+                
+                // Add a slight rotation that mirrors the direction from center
+                // 0 degrees at center, 15 degrees at edges
+                const rotationY = normalizedDistance * 15;
+                const sign = itemCenterX < viewportCenterX ? 1 : -1;
+                
+                // Apply the transform
+                item.style.transform = `perspective(1000px) scale(${scale}) rotateY(${rotationY * sign}deg)`;
+                
+                // Adjust Z-index so centered items are always on top
+                item.style.zIndex = Math.round((1 - normalizedDistance) * 10);
+            });
+            
+            requestAnimationFrame(updateMarqueeFocus);
+        };
+        
+        // Start the focus update loop
+        window.requestAnimationFrame(updateMarqueeFocus);
+    }
 });
