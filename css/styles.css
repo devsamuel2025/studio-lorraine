@@ -1,10 +1,188 @@
-/* 
-   =================================================
-   Studio Lorraine Oliveira - Stylesheet
-   =================================================
-*/
+/* --- Enter Screen Styles --- */
+.enter-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Dark base for transition */
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 1.5s cubic-bezier(0.8, 0, 0.2, 1), opacity 1.2s ease;
+    overflow: hidden;
+}
 
-/* --- Music Player Styles --- */
+.enter-bg-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.enter-bg-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.1);
+    animation: kenBurnsEnter 20s infinite alternate linear;
+}
+
+.enter-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(253, 250, 247, 0.85) 100%);
+    z-index: 1;
+}
+
+@keyframes kenBurnsEnter {
+    from {
+        transform: scale(1.1) rotate(0deg);
+    }
+    to {
+        transform: scale(1.2) rotate(1deg);
+    }
+}
+
+.enter-screen.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.enter-content {
+    text-align: center;
+    animation: fadeInScale 1.5s ease-out;
+}
+
+.enter-logo {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.enter-logo .logo-word {
+    display: block;
+    line-height: 0.9;
+    opacity: 1;
+    transform: none;
+    animation: none;
+}
+
+.enter-logo .studio {
+    font-size: 1.2rem;
+    letter-spacing: 15px;
+    color: #A98467;
+    margin-bottom: 0.5rem;
+}
+
+.enter-logo .lorraine {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #2D2D2D;
+    margin-bottom: 0.5rem;
+}
+
+.enter-logo .oliveira {
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: 10px;
+    color: #D4A373;
+}
+
+.enter-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    color: #7A7A7A;
+    text-transform: uppercase;
+    margin-bottom: 3.5rem;
+    font-weight: 300;
+}
+
+.enter-btn {
+    background-color: transparent;
+    border: 1px solid #D4A373;
+    padding: 1.2rem 3rem;
+    color: #D4A373;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    /* Luxury Pulse Animation */
+    animation: luxuryPulse 3s infinite ease-in-out;
+}
+
+.enter-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -100%;
+    width: 50px;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%) rotate(35deg);
+    transition: none;
+    animation: enterBtnShimmer 4s infinite linear;
+}
+
+@keyframes enterBtnShimmer {
+    0% { left: -50%; }
+    20% { left: 150%; }
+    100% { left: 150%; }
+}
+
+@keyframes luxuryPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 163, 115, 0.2); }
+    50% { transform: scale(1.02); box-shadow: 0 0 20px 5px rgba(212, 163, 115, 0.1); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 163, 115, 0.2); }
+}
+
+.enter-btn:hover {
+    background-color: #D4A373;
+    color: white;
+    transform: translateY(-5px) scale(1.05) !important;
+    box-shadow: 0 10px 25px rgba(212, 163, 115, 0.4);
+    animation: none; /* Stop pulsing on hover */
+}
+
+.enter-btn i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.enter-btn:hover i {
+    transform: translateX(5px);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 .music-player-container {
     position: fixed;
     bottom: 30px;
