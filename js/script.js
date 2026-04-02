@@ -277,8 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const enterBtn = document.getElementById('enter-btn');
         
         if (enterScreen && enterBtn) {
-            // Prevent scrolling when on enter screen
-            document.body.style.overflow = 'hidden';
+            // Force hard scroll lock on body & html
+            document.documentElement.classList.add('no-scroll');
+            document.body.classList.add('no-scroll');
             
             enterBtn.addEventListener('click', () => {
                 // Unlock audio context
@@ -287,8 +288,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Hide screen with animation
                 enterScreen.classList.add('hidden');
                 
-                // Re-enable scrolling
-                document.body.style.overflow = '';
+                // Release scroll lock once the screen transition is well underway
+                setTimeout(() => {
+                    document.documentElement.classList.remove('no-scroll');
+                    document.body.classList.remove('no-scroll');
+                    window.scrollTo(0, 0); // Reset position just in case
+                }, 800);
                 
                 // Start logic that might need user gesture
                 if (bgMusic) {
@@ -301,6 +306,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
+
+        // 11. Ultra-Responsive Visibility Handler (Crucial for iOS/Mobile)
+        // We use multiple events to ensure the audio stops immediately on lock/minimize
+        const stopAllAudio = () => {
+             if (bgMusic && !bgMusic.paused) {
+                 bgMusic.pause();
+                 // We don't use fadeAudio here because iOS suspends JS execution 
+                 // almost instantly when the screen locks.
+             }
+        };
+
+        const startAllAudio = () => {
+             if (musicStarted && bgMusic && musicBtn && 
+                musicBtn.getAttribute('data-manual-pause') !== 'true' && 
+                (!aboutVideo || aboutVideo.paused)) {
+                
+                bgMusic.volume = 0;
+                bgMusic.play().then(() => {
+                    fadeAudio(bgMusic, 0.4, 2000);
+                }).catch(e => console.log("Resume blocked", e));
+            }
+        };
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stopAllAudio();
+            else startAllAudio();
+        });
+
+        // Additional events for mobile robustness
+        window.addEventListener('pagehide', stopAllAudio);
+        window.addEventListener('blur', stopAllAudio);
+        window.addEventListener('focus', startAllAudio);
 
         // Robust State Machine for Audio
         let audioPlayState = 'idle'; // idle, playing, seeking
