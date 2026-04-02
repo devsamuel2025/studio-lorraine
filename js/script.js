@@ -275,46 +275,58 @@ document.addEventListener('DOMContentLoaded', () => {
         // 10. Luxury Enter Screen Handler
         const enterScreen = document.getElementById('enter-screen');
         const enterBtn = document.getElementById('enter-btn');
-        const particleContainer = document.querySelector('.enter-particles');
+        // Generate Luxury Ambient Aura, Twinkling Stars & Moving Beams
+        const enterAura = document.querySelector('.enter-aura');
+        const enterContent = document.querySelector('.enter-content');
+        const sparkleContainer = document.querySelector('.enter-sparkles');
         
-        // Generate Luxury Particles (Gold Dust)
-        if (particleContainer) {
-            const createParticle = () => {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+        // 1. Generate Sparkle Starfield (Universal - Mobile + Desktop)
+        if (sparkleContainer) {
+            const createSparkle = () => {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('star-sparkle');
                 
-                // Random position and size
-                const size = Math.random() * 5 + 2;
+                const size = Math.random() * 20 + 10;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
                 const delay = Math.random() * 5;
-                const duration = Math.random() * 5 + 5;
+                const duration = Math.random() * 3 + 2;
                 
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${posX}%`;
-                particle.style.top = `${posY}%`;
-                particle.style.animationDelay = `${delay}s`;
-                particle.style.animationDuration = `${duration}s`;
+                sparkle.style.width = `${size}px`;
+                sparkle.style.height = `${size}px`;
+                sparkle.style.left = `${posX}%`;
+                sparkle.style.top = `${posY}%`;
+                sparkle.style.animationDelay = `${delay}s`;
+                sparkle.style.animationDuration = `${duration}s`;
                 
-                particleContainer.appendChild(particle);
+                sparkleContainer.appendChild(sparkle);
                 
-                // Remove particle after animation
                 setTimeout(() => {
-                    particle.remove();
+                    sparkle.remove();
                 }, (duration + delay) * 1000);
             };
             
-            // Initial particles
-            for(let i = 0; i < 30; i++) {
-                setTimeout(createParticle, i * 100);
-            }
-            
-            // Continuous particles
-            const particleInterval = setInterval(createParticle, 300);
-            
-            // Stop generating when enter screen is gone
-            enterBtn?.addEventListener('click', () => clearInterval(particleInterval));
+            // Initial & Continuous Sparkles
+            for(let i = 0; i < 15; i++) setTimeout(createSparkle, i * 200);
+            const sparkleInterval = setInterval(createSparkle, 800);
+            enterBtn?.addEventListener('click', () => clearInterval(sparkleInterval));
+        }
+
+        // 2. Subtle Mouse Parallax (Optimized Desktop Only)
+        if (enterScreen && enterContent && window.innerWidth >= 992) {
+            enterScreen.addEventListener('mousemove', (e) => {
+                const moveX = (e.clientX - window.innerWidth / 2) / 60;
+                const moveY = (e.clientY - window.innerHeight / 2) / 60;
+                
+                const rotateX = (e.clientY - window.innerHeight / 2) / -80;
+                const rotateY = (e.clientX - window.innerWidth / 2) / 80;
+                
+                enterContent.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate(${moveX}px, ${moveY}px)`;
+                
+                if (enterAura) {
+                    enterAura.style.transform = `translate(calc(-50% + ${moveX * 1.5}px), calc(-50% + ${moveY * 1.5}px))`;
+                }
+            });
         }
 
         if (enterScreen && enterBtn) {
