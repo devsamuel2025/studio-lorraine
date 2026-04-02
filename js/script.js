@@ -275,7 +275,48 @@ document.addEventListener('DOMContentLoaded', () => {
         // 10. Luxury Enter Screen Handler
         const enterScreen = document.getElementById('enter-screen');
         const enterBtn = document.getElementById('enter-btn');
+        const particleContainer = document.querySelector('.enter-particles');
         
+        // Generate Luxury Particles (Gold Dust)
+        if (particleContainer) {
+            const createParticle = () => {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position and size
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 5 + 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particleContainer.appendChild(particle);
+                
+                // Remove particle after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, (duration + delay) * 1000);
+            };
+            
+            // Initial particles
+            for(let i = 0; i < 30; i++) {
+                setTimeout(createParticle, i * 100);
+            }
+            
+            // Continuous particles
+            const particleInterval = setInterval(createParticle, 300);
+            
+            // Stop generating when enter screen is gone
+            enterBtn?.addEventListener('click', () => clearInterval(particleInterval));
+        }
+
         if (enterScreen && enterBtn) {
             // Force hard scroll lock on body & html
             document.documentElement.classList.add('no-scroll');

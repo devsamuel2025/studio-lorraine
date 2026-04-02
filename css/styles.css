@@ -80,9 +80,47 @@ html.no-scroll {
     scrollbar-width: none;  /* Firefox */
 }
 
+/* Glassmorphism Content Box */
 .enter-content {
     text-align: center;
-    animation: fadeInScale 1.5s ease-out;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 4rem 3rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+    max-width: 90%;
+    animation: fadeInScale 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.enter-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+/* Luxury Particle (Gold Dust) */
+.particle {
+    position: absolute;
+    background: radial-gradient(circle, #D4A373 0%, rgba(212, 163, 115, 0) 70%);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatParticle 8s infinite ease-in-out;
+}
+
+@keyframes floatParticle {
+    0% { transform: translate(0, 0) scale(1); opacity: 0; }
+    20% { opacity: 0.6; }
+    50% { transform: translate(20px, -60px) scale(1.5); }
+    80% { opacity: 0.4; }
+    100% { transform: translate(-20px, -120px) scale(0.5); opacity: 0; }
 }
 
 .enter-logo {
@@ -95,9 +133,9 @@ html.no-scroll {
 .enter-logo .logo-word {
     display: block;
     line-height: 0.9;
-    opacity: 1;
-    transform: none;
-    animation: none;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: revealEnterWord 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .enter-logo .studio {
@@ -105,6 +143,7 @@ html.no-scroll {
     letter-spacing: 15px;
     color: #A98467;
     margin-bottom: 0.5rem;
+    animation-delay: 0.3s;
 }
 
 .enter-logo .lorraine {
@@ -113,6 +152,7 @@ html.no-scroll {
     letter-spacing: 6px;
     color: #2D2D2D;
     margin-bottom: 0.5rem;
+    animation-delay: 0.6s;
 }
 
 .enter-logo .oliveira {
@@ -120,16 +160,24 @@ html.no-scroll {
     font-weight: 500;
     letter-spacing: 10px;
     color: #D4A373;
+    animation-delay: 0.9s;
+}
+
+@keyframes revealEnterWord {
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .enter-subtitle {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
     letter-spacing: 4px;
-    color: #7A7A7A;
+    color: #4A4A4A;
     text-transform: uppercase;
     margin-bottom: 3.5rem;
-    font-weight: 300;
+    font-weight: 400;
+    opacity: 0;
+    animation: revealEnterWord 1.2s ease forwards;
+    animation-delay: 1.5s;
 }
 
 .enter-btn {
