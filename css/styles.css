@@ -523,7 +523,7 @@ img {
 }
 
 .bg-light {
-    background-color: var(--color-bg-light);
+    background: linear-gradient(to bottom, var(--color-bg) 0%, var(--color-bg-light) 15%, var(--color-bg-light) 85%, var(--color-bg) 100%);
 }
 
 .text-gold {
@@ -558,16 +558,63 @@ img {
 }
 
 .title-separator {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+    width: 0; /* Inicia zerado para animar */
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-primary-dark), var(--color-primary-light), var(--color-primary-dark), transparent);
+    background-size: 200% auto;
     margin-bottom: 2rem;
-    border-radius: 2px;
+    position: relative;
+    opacity: 0;
 }
 
 .title-separator.center {
     margin-left: auto;
     margin-right: auto;
+}
+
+/* O pequeno diamante de luxo no meio */
+.title-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary);
+    box-shadow: 0 0 8px rgba(212, 163, 115, 0.8);
+}
+
+/* Quando entra na tela pelos efeitos de fade-in */
+.is-visible .title-separator {
+    animation: 
+        expandSeparator 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, 
+        goldSeparatorShine 4s linear infinite;
+}
+
+.is-visible .title-separator::after {
+    animation: 
+        popDiamond 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards,
+        pulseDiamond 2.5s infinite ease-in-out 1.4s;
+}
+
+/* Animações Keyframes para o Separador */
+@keyframes expandSeparator {
+    0% { width: 0; opacity: 0; }
+    100% { width: 140px; opacity: 1; }
+}
+
+@keyframes goldSeparatorShine {
+    to { background-position: 200% center; }
+}
+
+@keyframes popDiamond {
+    to { transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+}
+
+@keyframes pulseDiamond {
+    0%, 100% { transform: translate(-50%, -50%) rotate(45deg) scale(1); opacity: 0.8; box-shadow: 0 0 5px rgba(212, 163, 115, 0.5); }
+    50% { transform: translate(-50%, -50%) rotate(45deg) scale(1.4); opacity: 1; box-shadow: 0 0 15px rgba(212, 163, 115, 1); }
 }
 
 /* Buttons */
@@ -801,11 +848,13 @@ img {
     transition: var(--transition-fast);
 }
 
-.nav a:hover::after {
+.nav a:hover::after,
+.nav a.active::after {
     width: 100%;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a.active {
     color: var(--color-primary);
 }
 
@@ -864,6 +913,19 @@ img {
     overflow: hidden;
 }
 
+/* Esfumaçado (Fade To White) na base para sumir o corte e integrar com a página */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--color-bg) 100%);
+    z-index: 10;
+    pointer-events: none;
+}
+
 .hero-bg img {
     width: 100%;
     height: 100%;
@@ -882,32 +944,101 @@ img {
     background: linear-gradient(to right, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.5) 100%);
 }
 
+.hero-sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Fica em cima do overlay mas atrás do texto */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.hero-sparkle {
+    position: absolute;
+    background: var(--color-primary);
+    clip-path: polygon(50% 0%, 61% 35%, 100% 50%, 61% 65%, 50% 100%, 39% 65%, 0% 50%, 39% 35%);
+    box-shadow: 0 0 12px rgba(212, 163, 115, 0.8);
+    opacity: 0;
+    animation: twinkleStar 3s ease-in-out forwards;
+}
+
 .hero-content {
     max-width: 650px;
     margin-right: auto;
 }
 
-.hero .subtitle {
-    font-size: 1.2rem;
-    color: var(--color-primary);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 1rem;
-    font-weight: 500;
+/* Hero Typography Enhancement */
+.subtitle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
-.hero h1 {
-    font-size: 4.5rem;
-    line-height: 1.1;
+.line-decorator {
+    height: 1px;
+    width: 40px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    background-size: 200% 100%;
+    animation: gentleShimmer 3s infinite linear;
+}
+
+@keyframes gentleShimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+.hero .subtitle {
+    font-size: 1rem;
+    color: var(--color-primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.hero .hero-title {
     margin-bottom: 1.5rem;
     color: var(--color-heading);
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.title-studio {
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    display: inline-block;
+}
+
+.title-name {
+    font-size: 5.8rem;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: 0;
+    background: linear-gradient(to right, var(--color-primary-dark) 0%, #E8C39E 50%, var(--color-primary-dark) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: goldShineText 6s linear infinite;
+    display: inline-block;
+    padding-bottom: 0.2em; /* prevent clipping on some cursive/italic descenders */
+}
+
+@keyframes goldShineText {
+    to { background-position: 200% center; }
 }
 
 .hero .tagline {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--color-text-main);
     margin-bottom: 2.5rem;
-    font-weight: 300;
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
 /* --- About Section --- */
@@ -1072,7 +1203,7 @@ img {
 /* --- Results Marquee (Pure Code Loop) --- */
 .results-marquee-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--color-bg-light);
+    background: linear-gradient(to bottom, var(--color-bg) 0%, var(--color-bg-light) 15%, var(--color-bg-light) 85%, var(--color-bg) 100%);
     overflow: hidden;
 }
 
@@ -1456,7 +1587,7 @@ body {
 
 /* --- CTA Section --- */
 .cta {
-    background: linear-gradient(135deg, var(--color-bg-alt), var(--color-bg-light));
+    background: linear-gradient(to bottom, var(--color-bg) 0%, var(--color-bg-alt) 20%, var(--color-bg-light) 80%, var(--color-bg) 100%);
     position: relative;
     overflow: hidden;
 }

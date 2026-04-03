@@ -28,15 +28,35 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(animateVolume);
     };
 
-    // 1. Header Scroll Effect
+    // 1. Header Scroll Effect & Scroll Spy
     const header = document.getElementById('header');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav ul li a');
+
     if (header) {
         window.addEventListener('scroll', () => {
+            // Header style
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
+
+            // Scroll Spy
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - header.offsetHeight - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (current && link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
         });
     }
 
@@ -62,6 +82,37 @@ document.addEventListener('DOMContentLoaded', () => {
     animateElements.forEach(element => {
         observer.observe(element);
     });
+
+    // 2.5. Hero Golden Sparkles
+    const heroSparklesContainer = document.querySelector('.hero-sparkles');
+    if (heroSparklesContainer) {
+        const createHeroSparkle = () => {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('hero-sparkle');
+            
+            const size = Math.random() * 20 + 8; // slightly smaller than enter screen
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 3 + 3; // a bit slower and gentler
+            
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            sparkle.style.left = `${posX}%`;
+            sparkle.style.top = `${posY}%`;
+            sparkle.style.animationDelay = `${delay}s`;
+            sparkle.style.animationDuration = `${duration}s`;
+            
+            heroSparklesContainer.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, (duration + delay) * 1000);
+        };
+        
+        for(let i = 0; i < 15; i++) setTimeout(createHeroSparkle, i * 200);
+        setInterval(createHeroSparkle, 900);
+    }
 
     // 3. Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
